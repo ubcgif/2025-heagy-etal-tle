@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# repo-specific
+*.zip
+dyang/*
+mtmill/*
