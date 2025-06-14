@@ -11,7 +11,7 @@ import pickle
 import dask
 from dask.distributed import Client
 
-from concurrent.futures import ProcessPoolExecutor, as_completed
+# from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
 import discretize
@@ -82,7 +82,7 @@ def get_mesh(
 
     # refine near transmitters and receivers
     mesh.refine_points(
-        rx_locs, level=-2, padding_cells_by_level=[2, 2, 4],
+        rx_locs, level=-1, padding_cells_by_level=[2, 8, 8],
         finalize=False, diagonal_balance=True
     )
 
@@ -105,69 +105,6 @@ def get_active_cells_map(mesh):
     return maps.InjectActiveCells(mesh, mesh.cell_centers[:, 2]<0, value_inactive=np.log(1e-8))
 
 
-
-# In[14]:
-
-
-# fig, ax = plt.subplots(1, 1, figsize=(8, 2))
-
-# plt.colorbar(
-#     mesh.plot_slice(
-#         models["target_0"],
-#         # grid=True,
-#         normal="y",
-#         pcolor_opts={"norm":LogNorm(1e-3, 1e-1)},
-#         ax=ax)[0],
-#     ax=ax
-# )
-
-# ax.set_xlim(100*np.r_[-1, 1])
-# ax.set_ylim(np.r_[-300, 50])
-
-# ax.plot(rx_locs[:, 0], rx_locs[:, 2], "ro")
-# ax.set_aspect(1)
-
-
-# In[15]:
-
-
-# fig, ax = plt.subplots(1, 1, figsize=(8, 2))
-
-# # mesh_local = mesh_list[-1]
-
-# plt.colorbar(
-#     mesh.plot_slice(
-#         models["target_0"],
-#         grid=True,
-#         normal="y",
-#         pcolor_opts={"norm":LogNorm(1e-3, 1e-1)},
-#         ax=ax)[0],
-#     ax=ax
-# )
-
-# ax.set_xlim(600*np.r_[-1, 1])
-# ax.set_ylim(np.r_[-300, 50])
-
-# ax.plot(rx_locs[:, 0], rx_locs[:, 2], "ro")
-# ax.set_aspect(1)
-
-
-
-# log_conductivity_models = {}
-
-# active_cells = mesh.cell_centers[:, 2] < 0
-
-# for key, val in models.items():
-#     log_conductivity_models[key] = np.log(val[active_cells])
-
-# # grab only first 20 times
-
-
-
-
-# In[18]:
-
-
 def get_sim(mesh):
     # set up survey
     source_list = []
@@ -175,7 +112,7 @@ def get_sim(mesh):
     for i in range(rx_locs.shape[0]):
         rx = tdem.receivers.PointMagneticFluxTimeDerivative(rx_locs[i, :], rx_times, orientation="z")
         src = tdem.sources.CircularLoop(
-            receiver_list=[rx], location=rx_locs[i, :], orientation="z", radius=10,
+            receiver_list=[rx], location=rx_locs[i, :], orientation="z", radius=13,
             waveform=tdem.sources.StepOffWaveform()
         )
         source_list.append(src)
@@ -220,6 +157,7 @@ def run_simulation(target_dip=0):
         """
         add a dipping target to the model. For now assumes the target dips in the x-direction
         """
+
         x_center = np.mean(target_x)
         slope = np.tan(-dip*np.pi/180)
         target_z = target_z_center + target_thickness / 2 * np.r_[-1, 1]
@@ -268,16 +206,20 @@ def run_simulation(target_dip=0):
     t = time.time()
 
     sim = get_sim(mesh)
-    dpred = sim.dpred(model)
+    try:
+        dpred = np.load("simple-dpred.npy")
+    except Exception:
+        dpred = sim.dpred(model)
     elapsed = time.time() - t
     print(f".... done. {key}. Elapsed time = {elapsed:1.2e}s \n")
-    return sim, dpred
+    np.save("simple-dpred.npy", dpred)
+    return sim, model, dpred
 
 def run_all(): 
      # run simulation
     target_dip = 0
     key = f"target_{target_dip}"
-    global_sim, dobs = run_simulation(target_dip)
+    global_sim, true_model, dobs = run_simulation(target_dip)
     survey = global_sim.survey
     mesh = global_sim.mesh
 
@@ -339,6 +281,10 @@ def run_all():
     sim = MultiprocessingMetaSimulation(sims, mappings)
     # sim = DaskMetaSimulation(sims, mappings, client=client)
 
+    # dpred_multi = sim.dpred(true_model)
+    # np.save("dpred_multi.npy", dpred_multi)
+    # return 
+    
     # relative_error=0.1
     # noise_floor=1e-11
     # alpha_s = 1e-1
@@ -353,7 +299,7 @@ def run_all():
         active_cells=active_cells_map.active_cells,
     )
 
-    opt = optimization.InexactGaussNewton(maxIter=2, maxIterCG=30, tolCG=1e-3)
+    opt = optimization.InexactGaussNewton(maxIter=2, maxIterCG=30)
     inv_prob = inverse_problem.BaseInvProblem(dmis, reg, opt)
 
     # Defining a starting value for the trade-off parameter (beta) between the data
@@ -381,9 +327,6 @@ def run_all():
     inv = inversion.BaseInversion(inv_prob, directives_list)
 
 
-    # In[32]:
-
-
     m0 = np.log(1/rho_back) * np.ones(np.sum(active_cells_map.active_cells))
 
     print("starting inversion") 
@@ -393,35 +336,6 @@ def run_all():
 if __name__ == "__main__":
     inv, mrec = run_all()
    
-
-# In[24]:
-
-
-# key = model_keys[1]
-# # rx_times = np.logspace(np.log10(1e-4), np.log10(8e-3), 27)
-
-# n_sources = rx_locs.shape[0]
-# n_rxtimes = len(rx_times)
-
-# fig, ax = plt.subplots(1, 1, figsize = (12, 4))
-
-# ax.semilogy(rx_x, -dpred_dict[model_keys[0]].reshape(n_sources, n_rxtimes), "-k", marker=".", lw=0.5, alpha=0.5);
-# ax.semilogy(rx_x, -dpred_dict[key].reshape(n_sources, n_rxtimes), "-C0", marker=".", lw=1);
-
-# In[41]:
-
-
-# fig, ax = plt.subplots(1, 1)
-
-# mesh.plot_slice(
-#     np.exp(active_cells_map * mrec),
-#     ax=ax,
-#     normal="y",
-#     pcolor_opts={"norm":LogNorm()}
-# )
-
-# ax.set_xlim(-500, 500)
-# ax.set_ylim([-200, 10])
 
 
 

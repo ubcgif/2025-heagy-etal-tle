@@ -11,7 +11,7 @@ from matplotlib.colors import LogNorm, Normalize
 import time
 import pickle
 
-from concurrent.futures import ProcessPoolExecutor, as_completed
+# from concurrent.futures import ProcessPoolExecutor, as_completed
 
 import discretize
 # from simpeg import dask
@@ -30,7 +30,7 @@ from simpeg import (
 from simpeg.electromagnetics import time_domain as tdem
 from simpeg.utils.solver_utils import get_default_solver
 
-from simpeg.meta import MultiprocessingMetaSimulation, DaskMetaSimulation
+# from simpeg.meta import MultiprocessingMetaSimulation DaskMetaSimulation
 
 
 Solver = get_default_solver()
@@ -41,43 +41,13 @@ files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directo
 
 files.remove("rx_locs.txt")
 rx_locs = np.loadtxt(f"{directory}/rx_locs.txt")
-# rx_locs[:, 1] =
+rx_locs[:, 1] = 0.1
 
 files.remove("rx_times.txt")
 rx_times = np.loadtxt(f"{directory}/rx_times.txt")
 
-inv_directory = "/t40array/lheagy/2025-heagy-et-al-tle/synthetic-invs-3d"
+inv_directory = "/t40array/lheagy/2025-heagy-et-al-tle/synthetic-invs-3d-full"
 
-def get_global_mesh(): 
-    base_cell_width = 10
-    domain_extent = 8000
-    
-    n_base_cells = 2 ** int(
-        np.ceil(np.log(domain_extent / base_cell_width) / np.log(2.0))
-    )  # needs to be powers of 2 for the tree mesh
-    
-    h = [(base_cell_width, n_base_cells)]
-    mesh = discretize.TreeMesh([h, h, h], origin="CCC", diagonal_balance=True)
-    
-    # refine near transmitters and receivers
-    mesh.refine_points(
-        rx_locs, level=-1, padding_cells_by_level=[4, 8, 8, 2], 
-        finalize=False, diagonal_balance=True
-    )
-    
-    # Refine core region of the mesh 
-    
-    bounding_points = np.array([
-        [-520, rx_locs[:, 1].min()-5, -200 - base_cell_width * 4], 
-        [520, rx_locs[:, 1].max()+5, rx_locs[:, 2].max()+10],
-    ])
-    mesh.refine_bounding_box(
-        bounding_points, level=-1, 
-        diagonal_balance=True, finalize=False, padding_cells_by_level=[4, 8, 8, 2]
-    )
-    
-    mesh.finalize()
-    return mesh 
 
 # set up 1D inversion
 def create_inversion(key, data_invert):
@@ -89,35 +59,34 @@ def create_inversion(key, data_invert):
     # beta0 = 10
     refine_depth = 120 # refine our local mesh to 200m
 
-    # mesh = discretize.load_mesh(f"{directory}/treemesh.json")
-    mesh = get_global_mesh()
+    mesh = discretize.load_mesh(f"{directory}/treemesh.json")
 
     active_cells_map = maps.InjectActiveCells(mesh, mesh.cell_centers[:, 2]<0, value_inactive=np.log(1e-8))
     survey = data_invert.survey
 
-    mesh_list = []
+    # mesh_list = []
 
-    for src in survey.source_list:
-        mesh_local = discretize.TreeMesh(mesh.h, origin=mesh.origin, diagonal_balance=True)
-        refine_points = discretize.utils.ndgrid(
-            np.r_[src.location[0]],
-            np.r_[src.location[1]],
-            np.linspace(-refine_depth, src.location[2], 40)
-        )
-        mesh_local.refine_points(
-            refine_points,
-            level=-1,
-            padding_cells_by_level=[2, 4, 6, 2],
-            finalize=True,
-            diagonal_balance=True
-        )
+    # for src in survey.source_list:
+    #     mesh_local = discretize.TreeMesh(mesh.h, origin=mesh.origin, diagonal_balance=True)
+    #     refine_points = discretize.utils.ndgrid(
+    #         np.r_[src.location[0]],
+    #         np.r_[src.location[1]],
+    #         np.linspace(-refine_depth, src.location[2], 40)
+    #     )
+    #     mesh_local.refine_points(
+    #         refine_points,
+    #         level=-1,
+    #         padding_cells_by_level=[1, 4, 6, 2],
+    #         finalize=True,
+    #         diagonal_balance=True
+    #     )
 
         
         
-        # mesh_local.x0=[x1, x2, x3]
-        # print(x1, x2, x3)
+    #     # mesh_local.x0=[x1, x2, x3]
+    #     # print(x1, x2, x3)
         
-        mesh_list.append(mesh_local)
+    #     mesh_list.append(mesh_local)
 
     # with ProcessPoolExecutor() as executor:
     #     mesh_list = list(executor.map(get_local_mesh, survey.source_list))
@@ -131,32 +100,40 @@ def create_inversion(key, data_invert):
     ]
 
 
-    mappings = []
-    sims = []
+    # mappings = []
+    # sims = []
 
-    for ii, local_mesh in enumerate(mesh_list):
+    # for ii, local_mesh in enumerate(mesh_list):
 
-        tile_map = maps.TileMap(mesh, active_cells_map.active_cells, local_mesh)
-        mappings.append(tile_map)
+    #     tile_map = maps.TileMap(mesh, active_cells_map.active_cells, local_mesh)
+    #     mappings.append(tile_map)
 
-        local_actmap = maps.InjectActiveCells(
-            local_mesh,
-            active_cells=tile_map.local_active,
-            value_inactive=np.log(1e-8)
-        )
+    #     local_actmap = maps.InjectActiveCells(
+    #         local_mesh,
+    #         active_cells=tile_map.local_active,
+    #         value_inactive=np.log(1e-8)
+    #     )
 
-        local_survey = tdem.Survey([survey.source_list[ii]])
-        sims.append(tdem.simulation.Simulation3DElectricField(
-                mesh=local_mesh,
-                survey=local_survey,
-                time_steps=time_steps,
-                solver=Solver,
-                sigmaMap=maps.ExpMap() * local_actmap
-            )
-        )
+    #     local_survey = tdem.Survey([survey.source_list[ii]])
+    #     sims.append(tdem.simulation.Simulation3DElectricField(
+    #             mesh=local_mesh,
+    #             survey=local_survey,
+    #             time_steps=time_steps,
+    #             solver=Solver,
+    #             sigmaMap=maps.ExpMap() * local_actmap
+    #         )
+    #     )
 
 
-    sim = MultiprocessingMetaSimulation(sims, mappings)
+    # sim = MultiprocessingMetaSimulation(sims, mappings, n_processes=42)
+
+    sim = tdem.simulation.Simulation3DElectricField(
+        mesh=mesh,
+        survey=survey,
+        time_steps=time_steps,
+        solver=Solver,
+        sigmaMap=maps.ExpMap() * active_cells_map
+    )
 
     dmis = data_misfit.L2DataMisfit(simulation=sim, data=data_invert)
     reg = regularization.WeightedLeastSquares(
@@ -253,25 +230,24 @@ def run():
             noise_floor=1e-11
         )
 
-    # downsample = 4
-    # downsampled_data_dict = {}
+    downsample = 4
+    downsampled_data_dict = {}
     
-    # for key, val in data_dict_invert.items():
-    #     source_list_downsampled = val.survey.source_list[::downsample]
-    #     survey_downsampled = tdem.Survey(source_list_downsampled)
-    #     downsampled_data_dict[key] = Data(
-    #         survey=survey_downsampled,
-    #         dobs=np.hstack(
-    #             [val[src, src.receiver_list[0]] for src in source_list_downsampled]
-    #         ),
-    #         noise_floor=1e-11,
-    #         relative_error=0.1
-    #    )
+    for key, val in data_dict_invert.items():
+        source_list_downsampled = val.survey.source_list[::downsample]
+        survey_downsampled = tdem.Survey(source_list_downsampled)
+        downsampled_data_dict[key] = Data(
+            survey=survey_downsampled,
+            dobs=np.hstack(
+                [val[src, src.receiver_list[0]] for src in source_list_downsampled]
+            ),
+            noise_floor=1e-11,
+            relative_error=0.1
+        )
     
     for key in ["target_0", "target_15", "target_30", "target_45"]:
         print(f"-------- RUNNING {key} ------------")
-        # m0, inv = create_inversion(key, downsampled_data_dict[key])
-        m0, inv = create_inversion(key, data_dict_invert[key])
+        m0, inv = create_inversion(key, downsampled_data_dict[key])
 
         mopt = inv.run(m0)
         np.save(f"{inv_directory}/{key}_model.npy", mopt)
