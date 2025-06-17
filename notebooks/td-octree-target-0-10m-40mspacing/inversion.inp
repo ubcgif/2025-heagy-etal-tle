@@ -1,6 +1,6 @@
 octree_mesh.txt              ! octree mesh
 octree_small_mesh.dat        ! forward meshes
-252                                      ! number of tiles
+182                                      ! number of tiles
 dobs.txt                     ! data file
 NOT_MOVE_TRX                             ! MOVE_TRX_EDGE | MOVE_TRX_CENTRE | NOT_MOVE_TRX
 waveform.txt                     ! wave file
@@ -14,7 +14,7 @@ NOT_USE_SENS_WEIGHT                      ! NOT_USE_SENS_WEIGHT | USE_SENS_WEIGHT
 DEFAULT                                  ! beta_max  beta_min  beta_factor
 1.e-2  1. 1. 1.                          ! alpha_s  alpha_x  alpha_y  alpha_z
 0.1                                      ! chifact
-4  20                                    ! iter_per_beta  nbetas
+5  20                                    ! iter_per_beta  nbetas
 1.e-3  10                                ! tol_ipcg  max_iter_ipcg
 NOT_CHANGE_MREF                              ! CHANGE_MREF | NOT_CHANGE_MREF
 SMOOTH_MOD                           ! SMOOTH_MOD | SMOOTH_MOD_DIF
