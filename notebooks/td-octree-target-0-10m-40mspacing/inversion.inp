@@ -12,11 +12,11 @@ NO_WEIGHT                                ! cell weighting file | NO_WEIGHT
 NO_FACE_WEIGHT                           ! interface weighting file | NO_FACE_WEIGHT
 NOT_USE_SENS_WEIGHT                      ! NOT_USE_SENS_WEIGHT | USE_SENS_WEIGHT val
 DEFAULT                                  ! beta_max  beta_min  beta_factor
-1.e-2  1. 1. 1.                          ! alpha_s  alpha_x  alpha_y  alpha_z
+1.e-3  1. 1. 1.                          ! alpha_s  alpha_x  alpha_y  alpha_z
 0.1                                      ! chifact
 3  20                                    ! iter_per_beta  nbetas
 1.e-3  10                                ! tol_ipcg  max_iter_ipcg
-NOT_CHANGE_MREF                              ! CHANGE_MREF | NOT_CHANGE_MREF
+CHANGE_MREF                              ! CHANGE_MREF | NOT_CHANGE_MREF
 SMOOTH_MOD                           ! SMOOTH_MOD | SMOOTH_MOD_DIF
 BOUNDS_NONE                              ! BOUNDS_NONE | BOUNDS_CONST bl bu | BOUNDS_FILE file
 10000.  121                              ! huber_c nTileSens
