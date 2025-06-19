@@ -1,4 +1,4 @@
-20. 20. 20.                           ! min_dx, min_dy, min_dz
+20. 20. 10.                           ! min_dx, min_dy, min_dz
 1 1 64 80                            ! mincellfactor  mincellsize_fwd  max_topo_cell fwd_mesh_dist
 10000.  10000.  10000.  10000.        ! total_expansion_x total_expansion_y total_expansion_z_ground expansion_air
 200 400 600                           ! depth_core_inv  depth_core_inv2  depth_core_inv3
