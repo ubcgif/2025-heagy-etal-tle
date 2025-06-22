@@ -1,0 +1,10 @@
+10. 10. 10.                           ! min_dx, min_dy, min_dz
+1 1 128 80                            ! mincellfactor  mincellsize_fwd  max_topo_cell fwd_mesh_dist
+4000.  4000.  4000.  4000.        ! total_expansion_x total_expansion_y total_expansion_z_ground expansion_air
+120 240 360                           ! depth_core_inv  depth_core_inv2  depth_core_inv3
+120 180 200                           ! depth_core_fwd  depth_core_fwd2  depth_core_fwd3
+4  4  4                               ! # of small cells around receivers,  ncell2,  ncell4
+survey.txt                        ! electrode location file
+topo.txt                         ! TOPO_CONST value | topography file
+MAKE_POLYGON 100                       ! MAKE_POLYGON val | points file
+CREATE_LARGE_MESH octree_mesh.txt     ! CREATE_LARGE_MESH filename | READ_LARGE_MESH filename
