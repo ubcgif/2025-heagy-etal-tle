@@ -1,5 +1,5 @@
 ---
-title:
+title: Why every electromagnetic inversion needs a 3D forward simulation
 abstract: |
     Modern electromagnetic (EM) surveys deliver high-quality data with broad
     spatial coverage and high spatial density, providing an opportunity to
