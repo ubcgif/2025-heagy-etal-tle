@@ -108,10 +108,11 @@ assumption of a 1D earth is being broken, whereas a 3D inversion can
 accurately account for such effects (Figure [1](#fig:1d-motivation)c,
 1f, 1i).
 
-![](./media/image1.png){width="5.833333333333333in"
-height="2.8325590551181103in"}
-
-**Figure 1.** Examples of where 1D inversions can break down. The top
+```{figure} ./media/image1.png
+---
+name: fig:1d-motivation
+---
+Examples of where 1D inversions can break down. The top
 row shows the true models of (a) a compact conductor, (b) a flat-lying
 conductor, (c) a topographic feature with uniform, homogeneous
 conductivity. An Octree mesh that is refined near the surface is used
@@ -119,6 +120,7 @@ for all simulations. The black dots indicate the sounding locations used
 in the inversions. A step-off waveform is used and 20 time channels from
 $2 \times 10^{- 2}$ms to 2ms are used for the respective 1D and 3D
 inversions (second and third row, respectively).
+```
 
 This paper illustrates the value of incorporating 3D forward simulation
 into the interpretation workflow. We use the UBC-GIF TD OcTree tiled
@@ -149,12 +151,15 @@ structure that is approximately 2D (very smooth in the *y*-direction,
 which is oriented into the page). The 1D and 3D recovered models are
 shown in Figure [2](#fig:dipping-target)b and 2c, respectively.
 
-![](./media/image2.png){width="3.5in" height="4.986065179352581in"}
-
-**Figure 2.** Inversion of AEM data collected over a target with a dip
+```{figure} ./media/image2.png
+---
+name: fig:dipping-target
+---
+Inversion of AEM data collected over a target with a dip
 of 45 degrees. (a) True model. Black dots indicate sounding locations.
 (b) Model obtained through 1D inversion of data. (c) Model obtained
 through 3D inversion.
+```
 
 The 1D inversion recovers a dipping target, but the recovered dip
 ($\sim 30^{\circ}$) is shallower than the true dip ($\sim 45^{\circ}$),
@@ -189,19 +194,23 @@ simply does not agree with the observed data. The 3D inversion (Figure
 3c, green lines), however, fits the data well and has a reasonable
 recovery of the target, because it fully simulates the 3D physics.
 
-![](./media/image3.png){width="5.833333333333333in"
-height="5.749036526684164in"}
-
-**Figure 3.** Plots of the observed and predicted data for every 4th
+```{figure} ./media/image3.png
+---
+name: fig:dipping-target-data-fits
+---
+Plots of the observed and predicted data for every 4th
 time-channel. (a) 1D simulations performed over the 1D inversion result.
 (b) 3D simulation performed over the 1D inversion result. (c) 3D
 simulation performed over the 3D inversion result.
+```
 
-![](./media/image4.png){width="5.833333333333333in"
-height="1.873406605424322in"}
-
-**Figure 4.** Predicted and observed data for: (a) a profile at t=0.18
+```{figure} ./media/image4.png
+---
+name: fig:dipping-target-fits-comparison
+---
+Predicted and observed data for: (a) a profile at t=0.18
 ms, and (b) a single sounding at x=0 m.
+```
 
 To illustrate how the 1D assumption breaks down, it can be insightful to
 look at the EM fields through time. Figure
@@ -222,18 +231,22 @@ it and induce currents. As a result, this sounding produces a *db/dt*
 response that can be measured and needs to be explained by the recovered
 model at that location.
 
-![](./media/image5.png){width="5.833333333333333in"
-height="4.845017497812774in"}
-
-**Figure 5.** Plots of the current density (left) and db/dt (right)
+```{figure} ./media/image5.png
+---
+name: fig:dipping-target-fields-center
+---
+Plots of the current density (left) and db/dt (right)
 fields at three different times for a source at x=0 m, z = 30 m (green
 dot).
+```
 
-![](./media/image6.png){width="5.833333333333333in"
-height="4.845017497812774in"}
-
-**Figure 6.** Plots of the current density (left) and db/dt (right)
+```{figure} ./media/image6.png
+---
+name: fig:dipping-target-fields-offset
+---
+Plots of the current density (left) and db/dt (right)
 fields at three different times for a source at x=100m.
+```
 
 # Example 2: Synthetic inspired by Mt. Milligan deposit
 
@@ -260,15 +273,17 @@ conductive (20 $\Omega$m). We simulate a higher-density survey than Yang
 and Oldenburg (2012), and use a line spacing of 100 m. Along each line,
 we use soundings that are 50 m apart for the inversions.
 
-![](./media/image7.png){width="5.833333333333333in"
-height="5.039527559055118in"}
-
-**Figure 7.** Synthetic model inspired by the Mt. Milligan deposit
+```{figure} ./media/image7.png
+---
+name: fig:mt-mill
+---
+Synthetic model inspired by the Mt. Milligan deposit
 (after Yang and Oldenburg, 2012). (a) Cross-section through the true
 model. (b) Depth slice of the true model at z = 162 m. White dots
 indicate sounding locations. (c, d) Cross-section and depth slice
 through the model recovered using 1D inversion. (e, f). Cross-section
 and depth slice through the model recovered using 3D inversion.
+```
 
 The models obtained by inverting the data in 1D and in 3D are shown in
 Figure [7](#fig:mt-mill)c-f. These models tell two very different
@@ -288,14 +303,17 @@ the observed data, particularly in the mid and late times over the
 deposit, as shown in Figure [8](#fig:mt-mill-data-fits)b. The 3D
 inversion result fits the observed at all time channels (Figure 8c).
 
-![](./media/image8.png){width="5.833333333333333in"
-height="5.749036526684164in"}
 
-**Figure 8.** Plots of the observed and predicted data for every 4th
+```{figure} ./media/image8.png
+---
+name: fig:mt-mill-data-fits
+---
+Plots of the observed and predicted data for every 4th
 time-channel along the y = 0 m line for the Mt. Milligan example. (a) 1D
 simulations performed using the model from the 1D inversion. (b) 3D
 simulation performed over the model obtained from 1D inversion. (c) 3D
 simulation performed with the model obtained through 3D inversion.
+```
 
 In Figure [9](#fig:mt-mill-data-comparison), we plot a profile of a
 single time channel (Figure 9a), and a single sounding at x = 0 m
@@ -312,19 +330,25 @@ predicted data, and in the misfit plot in Figure
 character to the true data in Figure [10](#fig:mt-mill-data-maps)a,
 which should serve as a red-flag for interpreters.
 
-![](./media/image9.png){width="5.833333333333333in"
-height="1.873406605424322in"}
 
-**Figure 9.** Predicted and observed data for: (a) a profile at t = 0.29
+```{figure} ./media/image9.png
+---
+name: fig:mt-mill-data-comparison
+---
+Predicted and observed data for: (a) a profile at t = 0.29
 ms, and (b) a single sounding at x= 0 m, y = 0 m. The source is at z =
 30 m.
+```
 
-![](./media/image10.png){width="5.833333333333333in"
-height="1.760249343832021in"}
-
-**Figure 10.** Time-slice of data: (a) observed data from the true
+```{figure} ./media/image10.png
+---
+name: fig:mt-mill-data-maps
+---
+Time-slice of data: (a) observed data from the true
 model, (b) data computed by a 3D simulation of the model obtained
 through 1D inversion, (c) misfit (observed - predicted).
+```
+
 
 To help understand how the 1D assumption breaks down for this example,
 we show the currents and db/dt field for a sounding over the center of
@@ -341,19 +365,25 @@ zone, similar to when the sounding was at the center of the deposit.
 These effects are highly 3D, but the 1D inversion can fit the sounding
 by again putting a conductive unit beneath the transmitter.
 
-![](./media/image11.png){width="5.833333333333333in"
-height="4.163876859142607in"}
 
-**Figure 11.** Plots of the current density (left) and db/dt (right)
+```{figure} ./media/image11.png
+---
+name: fig:mt-mill-fields-center
+---
+Plots of the current density (left) and db/dt (right)
 fields at three different times for a source at x=0m for the Mt.
 Milligan example.
+```
 
-![](./media/image12.png){width="5.833333333333333in"
-height="4.163876859142607in"}
 
-**Figure 12.** Plots of the current density (left) and db/dt (right)
+```{figure} ./media/image12.png
+---
+name: fig:mt-mill-fields-offset
+---
+Plots of the current density (left) and db/dt (right)
 fields at three different times for a source at x=200m, y=0m for the Mt.
 Milligan example.
+```
 
 # Discussion
 
