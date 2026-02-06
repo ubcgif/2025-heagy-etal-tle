@@ -10,7 +10,7 @@ jobs:
     with:
       id-pattern-regex: '^ubcgif-(?:[a-zA-Z0-9-_]{3,40})$'
       venue: appliedgeophysics
-      collection: papers
+      collection: publications
       kind: article
       path: paper
     secrets:
