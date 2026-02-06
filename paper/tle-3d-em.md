@@ -262,8 +262,7 @@ resistivity of 10 $\Omega$m (0.01 S/m). The background is
 500$\ \Omega$m. The deposit consists of two regions. The inner portion
 is a resistive (1000 $\Omega$m) stock that hosts the mineralization.
 Surrounding the resistive stock is an altered region that is more
-conductive (20 $\Omega$m). We simulate a higher-density survey than Yang
-and Oldenburg (2012), and use a line spacing of 100 m. Along each line,
+conductive (20 $\Omega$m). We simulate a higher-density survey than @yang_threedimensional_2012, and use a line spacing of 100 m. Along each line,
 we use soundings that are 50 m apart for the inversions.
 
 ```{figure} ./media/image7.png
@@ -271,7 +270,7 @@ we use soundings that are 50 m apart for the inversions.
 name: fig:mt-mill
 ---
 Synthetic model inspired by the Mt. Milligan deposit
-(after Yang and Oldenburg, 2012). (a) Cross-section through the true
+(after @yang_threedimensional_2012). (a) Cross-section through the true
 model. (b) Depth slice of the true model at z = 162 m. White dots
 indicate sounding locations. (c, d) Cross-section and depth slice
 through the model recovered using 1D inversion. (e, f). Cross-section
