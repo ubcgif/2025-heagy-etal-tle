@@ -1,0 +1,57 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: ubcgif-2025-heagy-etal-tle
+  title: Why every electromagnetic inversion needs a 3D forward simulation
+  description: Numerical study illustrating the value of 3D EM simulations applied to inversion results
+  authors:
+    - name: Lindsey J. Heagy
+      email: lheagy@eoas.ubc.ca
+      corresponding: true
+      orcid: 0000-0002-1551-5926
+      affiliation:
+        id: ubc
+        name: Department of Earth, Ocean and Atmospheric Sciences, University of British Columbia, Vancouver, British Columbia
+    - name: Doulas W. Oldenburg
+      email: doug@eos.ubc.ca
+      orcid: 0000-0002-4327-2124
+      affiliation: ubc
+    - name: Seogi Kang
+      email: seogi.kang@umanitoba.ca
+      orcid: 0000-0002-9963-936X
+      affiliation: Department of Earth Sciences, University of Manitoba
+    - name: Dikun Yang
+      email: yangdikun@gmail.com
+      orcid: 0000-0002-2807-9537
+      affiliation: Department of Earth and Space Sciences, Southern University of Science and Technology
+  doi: 10.1190/tle44110847.1
+  # arxiv: 2110.00863
+  github: https://github.com/ubcgif/2025-heagy-etal-tle
+  date: 2025/11/17 # date of publication
+  # license: CC-BY-4.0  # uncomment this and the line below if open access
+  # open_access: true
+  venue:
+    title: The Leading Edge
+    url: https://pubs.geoscienceworld.org/seg/tle/article/44/11/847/669270/Why-every-electromagnetic-inversion-needs-a-3D
+  history:
+    # received: YYYY/MM/DD
+    # accepted: YYYY/MM/DD
+    published: 2025-11-17
+  keywords:
+    - electromagnetics
+    - inversion
+    - modeling
+  abbreviations:
+    EM: electromagnetics
+    TDEM: time-domain electromagnetics
+  thumbnail: thumbnail.png
+  banner: banner.png
+  numbering:
+    headings: true
+  bibliography: references.bib
+site:
+  template: article-theme
+  actions:
+    - title: pdf
+      url: heagy-etal-2025-tle.pdf
+      static: true
