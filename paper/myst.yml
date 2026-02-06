@@ -48,6 +48,7 @@ project:
   banner: banner.png
   numbering:
     headings: true
+  bibliography: references.bib
 site:
   template: article-theme
   actions:

@@ -60,30 +60,26 @@ formulation. Such codes exist, and there have been advancements to make
 them efficient. OcTree meshes allow for adaptive refinement within the
 areas of interest and allow for rapid coarsening of cells outside of
 this region in order to pad sufficiently to satisfy boundary conditions
-(Haber and Heldmann, 2007). Survey decomposition methods can be used to
+(@haberOctreeMultigridMethod2007a). Survey decomposition methods can be used to
 break up the forward simulation by source so that each can be computed
 in parallel on a mesh that has fewer cells than the global inversion
-mesh, speeding up the simulation and sensitivity computations (Yang and
-Oldenburg, 2016; Haber and Schwarzbach, 2014; Cox et al., 2010). With
+mesh, speeding up the simulation and sensitivity computations (@Yang2016; @haber_parallel_2014; @Cox2010). With
 these approaches, problems that were previously intractable are now
 feasible. There are multiple codes that can be used for 3D inversion of
 time-domain EM (TDEM) data, and there have been multiple review papers
-on the topic (Macnae et al., 2012; Smith, 2014). Since EM inversions are
+on the topic (@macnae3DEMInversion2012; @smithElectromagneticInductionMethods2014). Since EM inversions are
 non-linear, each of the choices made in setting up the inversion can
 have important implications for the result obtained. The development of
 tutorials, training materials, and open-source codes are important
 avenues for helping to reduce the hurdles for 3D EM inversion. This work
-is in progress within the SimPEG project (Cockett et al., 2015; Heagy et
-al., 2017) and in other projects. However, it is often still the case
+is in progress within the SimPEG project (@cockett_simpeg_2015; @heagy_framework_2017) and in other projects. However, it is often still the case
 that the required computational resources and expertise may not be
 available for every project.
 
 Fortunately, while full 3D inversion remains challenging, 3D forward
 simulation is accessible, robust, and generally straightforward to
 implement. There are now many forward simulation codes, both proprietary
-and open-source, that are available (e.g. Börner et al., 2008; Cox et
-al., 2010; Yang and Oldenburg, 2016; Heagy et al., 2017; Rochlitz et
-al., 2019; Lu and Farquharson 2020; among others). Efforts to document,
+and open-source, that are available (e.g. @ralph-uweFast3DSimulation2008; @Cox2010; @yangSurveyDecompositionScalable2016; @heagy_framework_2017; @rochlitzCustEMCustomizableFiniteelement2019; @lu3DFinitevolumeTimedomain2020a; among others). Efforts to document,
 test and develop tutorials for these codes help to train users. Carrying
 out a simulation provides a valuable check on whether a model that is
 obtained by 1D inversion, 2D inversion, or parametric fitting, can
@@ -92,8 +88,7 @@ To illustrate the necessity of carrying out 3D simulations, we consider
 the inversion of airborne TDEM data. Typically, 1D inversion algorithms
 form the heart of the analysis. These inversions are typically quite
 fast to perform, and there are a variety of well-established algorithms
-that are trusted by industry (e.g. Farquharson and Oldenburg 1993;
-Viezzoli et al. 2008; Brodie and Richardson 2015; Kang et al. 2018;
+that are trusted by industry (e.g. @farquharsonInversionTimedomainElectromagnetic1993; @Viezzoli2008; @brodieOpenSourceSoftware2015; @Kang2018;
 among others).
 
 In Figure [1](#fig:1d-motivation), we show examples of common "failure
@@ -125,7 +120,7 @@ inversions (second and third row, respectively).
 This paper illustrates the value of incorporating 3D forward simulation
 into the interpretation workflow. We use the UBC-GIF TD OcTree tiled
 code (Haber, and Schwarzbach. 2014), as well as the 1D and 3D SimPEG
-time-domain codes in our analysis (Kang et al. 2018; Heagy et al. 2017).
+time-domain codes in our analysis (@Kang2018; @heagy_framework_2017).
 By simulating the responses of inversion-derived models in 3D, one can
 quickly assess the internal consistency of results and identify
 problematic artifacts. Through two examples, a dipping conductor and a
@@ -253,14 +248,12 @@ fields at three different times for a source at x=100m.
 Mt. Milligan is an alkalic porphyry Cu-Au deposit located approximately
 155 km northwest of Prince George in British Columbia, Canada. It lies
 within the Early Mesozoic Quesnel Terrane, where many similar porphyry
-deposits have been discovered (DeLong et al., 1990; Oldenburg et al.,
-1997). In 2007, a VTEM survey was flown over the deposit as a part of
-the Geoscience BC QUEST project. Yang and Oldenburg, (2012) inverted
+deposits have been discovered (@delong_geology_; @heagy_framework_2017). In 2007, a VTEM survey was flown over the deposit as a part of
+the Geoscience BC QUEST project. @yang_threedimensional_2012 inverted
 these data in 3D to produce a model that agreed well with the known
 geologic information from drilling. They also developed a synthetic
 example to illustrate the pitfalls of 1D inversion for this geologic
-model. Here, we revisit the synthetic model first presented in Yang and
-Oldenburg (2012).
+model. Here, we revisit the synthetic model first presented in @yang_threedimensional_2012.
 
 The model is shown in Figure [7](#fig:mt-mill)a as a cross-section, and
 Figure [7](#fig:mt-mill)b shows a depth slice. We use mesh cells that
@@ -395,7 +388,7 @@ the recovered dip of $\sim 30^{\circ}$ was much shallower than the true
 dip of 45$^{\circ}$, and the target appears to extend further along the
 profile than it does in reality. For the Mt. Milligan example, the 1D
 inversion model leads to an entirely different interpretation, as
-pointed out by Yang and Oldenburg (2012). It shows a conductive
+pointed out by @yang_threedimensional_2012. It shows a conductive
 structure where the resistive core is, and places a shallow conductor
 where the altered halo that contains the mineralization should be. In
 both examples, the 1D inversions can fit the data well when each
@@ -418,7 +411,7 @@ compact conductor at the center of the Mt. Milligan survey area, in
 fact, fits the data. This can be followed up with 3D inversions on
 subsets of the data. Forward simulations in 3D can be even more
 important when 3D survey geometries are employed and the data are less
-intuitive to interpret (Cheng et al., 2023).
+intuitive to interpret (@cheng_interpreting_2023).
 
 # Conclusions
 
@@ -450,7 +443,7 @@ subsurface models.
 The authors are grateful to the two anonymous referees who took the time
 to help improve the quality of this manuscript.
 
-# References
+<!-- # References
 
 Börner, R. U., O. G. Ernst, and K. Spitzer. 2008. Fast 3-D Simulation of
 Transient Electromagnetic Fields by Model Reduction in the Frequency
@@ -551,7 +544,7 @@ Framework for 3D Controlled-Source Electromagnetic Inversion.
 Yang, D., and D. W. Oldenburg. 2012. "Three-Dimensional Inversion of
 Airborne Time-Domain Electromagnetic Data with Applications to a
 Porphyry Deposit." *Geophysics,* 77, 2, B23--34.
-<https://doi.org/10.1190/geo2011-0194.1>.
+<https://doi.org/10.1190/geo2011-0194.1>. -->
 
 [^1]: https://www.earthscope.org/
 
